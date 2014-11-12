@@ -5,6 +5,9 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<div id="nick">
+    <label for="u">Nickname: </label><input id="u" autocomplete="off" /> <br />
+</div>
 
 <div id="chat">
     <ul id="messages"></ul>
@@ -12,22 +15,36 @@
 
 
 <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
+    <label for="m">Message: </label><input id="m" autocomplete="off" autofocus/>
+    <button />
 </form>
-
-
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
 <script>
+
     var socket = io();
+
     $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
+        if ($('#u').val().length < 3)
+            window.alert("User name too short");
+        else if ($('#m').val().length < 1)
+            window.alert("Please type a message");
+        else {
+            socket.emit('chat message',  $('#u').val() + ": " + $('#m').val());
+            $('#m').val('');
+            $('#m').focus();
+        }
         return false;
     });
+
     socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
+        if ( $('#messages').find('li').length > 30 ) {
+            $('#messages').children('li').eq(1).remove();
+        }
+
     });
 
     socket.on('user connected', function(user){
