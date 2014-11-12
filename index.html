@@ -23,8 +23,12 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
 <script>
-
     var socket = io();
+
+    $('#u').change(function () {
+        socket.emit('nick', $('#u').val());
+    });
+
 
     $('form').submit(function(){
         if ($('#u').val().length < 3)
@@ -32,7 +36,7 @@
         else if ($('#m').val().length < 1)
             window.alert("Please type a message");
         else {
-            socket.emit('chat message',  $('#u').val() + ": " + $('#m').val());
+            socket.emit('chat message', $('#m').val());
             $('#m').val('');
             $('#m').focus();
         }
