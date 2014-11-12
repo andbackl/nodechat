@@ -3,7 +3,7 @@ body {
     background-color: #383838;
     font-family: 'Expressway Free',sans-serif;
     background-image: url("wallpaper.jpg");
-    background-size: 100%;
+    background-size: 100% auto;
     background-repeat: no-repeat;
 }
 
