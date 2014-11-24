@@ -1,21 +1,14 @@
 <!doctype html>
 <html>
 <head>
-    <title>Socket.IO chat</title>
+    <title>nodeChat</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<a href="/auth/facebook">Login with Facebook</a>
-
-<div
-        class="fb-like"
-        data-share="true"
-        data-width="450"
-        data-show-faces="true">
-</div>
 
 <div id="nick">
-    <label for="u">Nickname: </label><input id="u" autocomplete="off"/> <br/>
+    <label for="u">Nickname: </label>
+    <input id="u" autocomplete="off"/> <br/>
 </div>
 
 <div id="chat">
@@ -24,20 +17,26 @@
 
 
 <form action="">
-    <label for="m">Message: </label><input id="m" autocomplete="off" autofocus/>
+    <label for="m">Message: </label>
+    <input id="m" autocomplete="off" autofocus/>
     <button/>
 </form>
 
+<a href="/auth/facebook">Login with Facebook</a>
+<a href="/logout">Logout</a>
+<a href="/profile">Profile</a>
+
+
+
+
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-
 <script>
     var socket = io();
 
     $('#u').change(function () {
         socket.emit('nick', $('#u').val());
     });
-
 
     $('form').submit(function () {
         if ($('#u').val().length < 3)
@@ -57,33 +56,12 @@
         if ($('#messages').find('li').length > 30) {
             $('#messages').children('li').eq(1).remove();
         }
-
     });
 
     socket.on('user connected', function (user) {
         $('#messages').append($('<li>').text(user));
     });
 
-</script>
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '701931776569852',
-            xfbml: true,
-            version: 'v2.2'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
 </script>
 </body>
 </html>
